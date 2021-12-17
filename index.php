@@ -1,6 +1,15 @@
 <?php
-ini_set("display_errors",1);
-error_reporting(E_ALL);
+    function startsWith ($string, $startString){
+        $len = strlen($startString);
+        return (substr($string, 0, $len) === $startString);
+    }
+    function endsWith($string, $endString){
+        $len = strlen($endString);
+        if ($len == 0) {
+            return true;
+        }
+        return (substr($string, -$len) === $endString);
+    }    
     $string = file_get_contents("people.json");
     $people = json_decode($string, true);
     $keys = array_keys($people);
@@ -15,7 +24,7 @@ error_reporting(E_ALL);
         $question=$_POST["question"];
         $en_name=$_POST["person"];
         $fa_name=$people[$en_name];
-        if (str_starts_with($question, "آیا")&&(str_ends_with($question,"?")||str_ends_with($question,"؟"))){
+        if (startsWith($question, "آیا")&&(endsWith($question,"?")||endsWith($question,"؟"))){
             $ansno=intval(md5($question.$en_name,False),10)%16;
             $msg=$messages[$ansno];
         }else{
